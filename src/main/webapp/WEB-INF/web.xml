@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <filter>
+  	<filter-name>Logincheck</filter-name>
+  	<filter-class>com.blog.filters.Logincheck</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>Logincheck</filter-name>
+  	<url-pattern>/profile.jsp</url-pattern>
+  </filter-mapping>
+  
 </web-app>

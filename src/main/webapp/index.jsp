@@ -16,51 +16,134 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 <link href="css/styles.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<style>
+	.banner-background{
+		clip-path: polygon(50% 0%, 100% 0, 100% 92%, 65% 100%, 29% 92%, 0 100%, 0 0);
+	}
+</style>
 </head>
 <body>
 
-	<h1>Welcome to this Blog</h1>
-	<%
-	Connection con = ConnectionProvider.getConnection();
-	%>
-	<h2><%=con%></h2>
-
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">Navbar</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> Dropdown </a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">Action</a> <a
-							class="dropdown-item" href="#">Another action</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Something else here</a>
-					</div></li>
-				<li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
-				</li>
-			</ul>
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search"
-					placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-			</form>
+	<!-- 	navbar -->
+	<%@include file="common_navbar.jsp" %>
+	
+	<!-- banner -->
+	<div class="container-fuild p-0 m-0">
+		
+		<div class="jumbotron primary-background text-white banner-background">
+		
+			<div class="container">
+			
+				<h3 class="display-4">Hello There! Welcome to yet another blog site</h3>	
+				<p>A blog (contraction of weblog) is a web site with frequent, periodic posts creating an ongoing narrative. They are maintained by both groups and individuals, the latter being the most common. Blogs can focus on a wide variety of topics, ranging from the political to personal experiences.</p>
+				<p>Yes, I indeed copied the first few lines from the "Blog" page from Wikipedia</p>
+				<a href="signuppage.jsp" class="btn btn-outline-light"><span class="fa fa-user-circle fa-spin"></span> Join</a>
+				<a href="loginpage.jsp" class="btn btn-outline-light"><span class="fa fa-sign-in"></span> Login</a>
+				
+			</div>	
+			
 		</div>
-	</nav>
+		
+	</div>
+	
+	<!-- cards -->
+	<div class="container">
+	
+		<div class="row mb-3">
+		
+			<div class="col-md-4">
+			
+				<div class="card">
+
+  					<div class="card-body">
+    					<h5 class="card-title">Thread 1</h5>
+    					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    					<a href="#" class="btn btn-primary primary-background text-white">Read more</a>
+  					</div>
+  					
+				</div>
+			
+			</div>
+			<div class="col-md-4">
+			
+				<div class="card">
+
+  					<div class="card-body">
+    					<h5 class="card-title">Thread 2</h5>
+    					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    					<a href="#" class="btn btn-primary primary-background text-white">Read more</a>
+  					</div>
+  					
+				</div>
+			
+			</div>
+			<div class="col-md-4">
+			
+				<div class="card">
+
+  					<div class="card-body">
+    					<h5 class="card-title">Thread 3</h5>
+    					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    					<a href="#" class="btn btn-primary primary-background text-white">Read more</a>
+  					</div>
+  					
+				</div>
+			
+			</div>
+		
+		</div>
+	
+		<div class="row mb-3">
+		
+			<div class="col-md-4">
+			
+				<div class="card">
+
+  					<div class="card-body">
+    					<h5 class="card-title">Thread 1</h5>
+    					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    					<a href="#" class="btn btn-primary primary-background text-white">Read more</a>
+  					</div>
+  					
+				</div>
+			
+			</div>
+			<div class="col-md-4">
+			
+				<div class="card">
+
+  					<div class="card-body">
+    					<h5 class="card-title">Thread 2</h5>
+    					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    					<a href="#" class="btn btn-primary primary-background text-white">Read more</a>
+  					</div>
+  					
+				</div>
+			
+			</div>
+			<div class="col-md-4">
+			
+				<div class="card">
+
+  					<div class="card-body">
+    					<h5 class="card-title">Thread 3</h5>
+    					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    					<a href="#" class="btn btn-primary primary-background text-white">Read more</a>
+  					</div>
+  					
+				</div>
+			
+			</div>
+		
+		</div>
+		
+		
+	</div>
+	
+	
+	
 	<!--javascript -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
