@@ -43,19 +43,19 @@
 					<div class="card-body">
 						<form id="regform" action="RegisterServlet" method="POST" accept-charset=utf-8>
 							<div class="form-group">
-								<label for="exampleusername">User name</label> <input
+								<label for="exampleusername">User name</label> <input required
 									type="text" class="form-control" id="exampleusername" name="username"
 									aria-describedby="emailHelp" placeholder="Enter name">
 							</div>
 							<div class="form-group">
-								<label for="exampleusermail">Email address</label> <input
+								<label for="exampleusermail">Email address</label> <input required
 									type="email" class="form-control" id="exampleusermail" name="usermail"
 									aria-describedby="emailHelp" placeholder="Enter email">
 								<small id="emailHelp" class="form-text text-muted">We'll
 									never share your email with anyone else.</small>
 							</div>
 							<div class="form-group">
-								<label for="exampleuserpass">Password</label> <input
+								<label for="exampleuserpass">Password</label> <input required
 									type="password" class="form-control" id="exampleuserpass" name="userpass"
 									placeholder="Password">
 							</div>
@@ -63,7 +63,7 @@
 								<label for="exampleusergend">Select gender</label> 
 								<br>
 								<input
-									type="radio" id="exampleusergend" value="Male" name="usergend"> Male &nbsp;&nbsp;    
+									type="radio" id="exampleusergend" value="Male" name="usergend" required> Male &nbsp;&nbsp;    
 									
 								<input
 									type="radio" id="exampleusergend" value="Female" name="usergend"> Female &nbsp;&nbsp;    

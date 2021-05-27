@@ -1,3 +1,4 @@
+<%@page import="com.blog.entities.Message"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="com.blog.entities.User" %>    
@@ -81,7 +82,19 @@
 
 	<!-- Navbar ends here -->
 
-
+	<%
+	Message m = (Message) session.getAttribute("editmsg");
+	if (m != null) {
+	%>
+	<div>
+		<div class="alert <%=m.getCssClass()%>" role="alert">
+			<%=m.getContent()%>
+		</div>
+	</div>
+	<%
+	session.removeAttribute("msg");
+	}
+	%>
 
 	<!-- profile modal -->
 
@@ -102,8 +115,10 @@
 					<div class="container text-center">
 						<img src="profilepics/<%= user.getProfile() %>" class="img-fluid" style="border-radius: 50%; max-width: 150px"> 
 						<br>
-						<h5 class="modal-title mt-3" id="exampleModalLabel"><%= user.getName() %></h5>
-						<!-- user details-->
+						<h4 class="modal-title mt-3" id="exampleModalLabel"><%= user.getName() %></h4>
+						
+						<!-- user profile details-->
+						<div id="profile-details">
 						<table class="table mt-2">
 							<tbody>
 								<tr>
@@ -124,25 +139,64 @@
 								</tr>
 							</tbody>
 						</table>
-					</div>
+						</div>
+						
+						<!-- user profile edit -->
+						<div id="profile-edit" style="display:none;">
+							<h5 class="mt-2">Edit Profile Details</h5>
+							<form action="EditServlet" method="post" enctype="multipart/form-data">
+								<table class="table">
+									<tr>
+										<td>Name :</td>
+										<td><input type="text" name="username" value="<%=user.getName() %>" class="form-control"/></td>
+									</tr>
+									<tr>
+										<td>Email :</td>
+										<td><input type="email" name="usermail" value="<%=user.getEmail() %>" class="form-control"/></td>
+									</tr>
+									<tr>
+										<td>Password :</td>
+										<td><input type="password" name="userpass" value="<%=user.getPassword() %>" class="form-control"/></td>
+									</tr>
+									<tr>
+										<td>Gender :</td>
+										<td><input
+												type="radio"  id="exampleusergend" value="Male" name="usergend" required> Male &nbsp;
+											<input
+												type="radio"  id="exampleusergend" value="Female" name="usergend"> Female &nbsp;
+											<input
+												type="radio"  id="exampleusergend" value="Unspecified" name="usergend"> Don't wish to specify</td>
+									</tr>
+									<tr>
+										<td>About :</td>
+										<td>
+											<textarea class="form-control" name="userbout"><%=user.getAbout() %></textarea>
+										</td>
+									</tr>
+									<tr>
+										<td>New Profile Pic:</td>
+										<td><input type="file" name="userfile" class="form-control"/></td>
+									</tr>
+								</table>
+								<div class="container">
+									<button type="submit" class="btn btn-outline-primary mb-4">Save</button>
+								
+								</div>
+							</form>
+							
+						</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Edit</button>
+					<button id="edit-profile" type="button" class="btn btn-primary">Edit</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
 	
 	<!-- profile modal ends here -->
-	
-	
-	<%= user.getName() %>
-	<br>
-	<%= user.getEmail() %>
-	<br>
-	<%= user.getAbout() %>
 	
 	
 	<!--javascript -->
@@ -158,5 +212,28 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script type="text/javascript" src="js/myjs.js"></script>
+	<script>
+
+		$(document).ready(function (){
+			let editStatus = false;
+			$('#edit-profile').click(function(){
+				//alert("edit clicked")
+				if(editStatus==false){
+					$('#profile-details').hide();
+					$('#profile-edit').show();
+					editStatus = true;
+					$(this).text("Back");
+				}
+				else{
+					$('#profile-details').show();
+					$('#profile-edit').hide();
+					editStatus = false;
+					$(this).text("Edit");
+				}
+				
+			})
+		})
+
+	</script>
 </body>
 </html>
