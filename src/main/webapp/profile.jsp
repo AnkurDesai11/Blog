@@ -1,7 +1,11 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.blog.helper.ConnectionProvider"%>
+<%@page import="com.blog.dao.PostDao"%>
 <%@page import="com.blog.entities.Message"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="com.blog.entities.User" %>    
+<%@page import="com.blog.entities.Category" %>    
 <%@page errorPage="errorpage.jsp" %>    
 <%
 
@@ -67,6 +71,8 @@
 					</div></li>
 				<li class="nav-item"><a class="nav-link" href="#"><span
 						class="fa fa-paper-plane-o"></span> Contact us</a></li>
+				<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#postModal"><span
+						class="fa fa-newspaper-o"></span> New Post</a></li>
 				
 			</ul>
 			
@@ -199,6 +205,67 @@
 	<!-- profile modal ends here -->
 	
 	
+	<!-- add post modal -->
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="postModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">New Blog Post</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				
+					<form id="addPostForm" action="AddPostServlet" method="post">
+						
+						<div class="form-group">
+							<select class="form-control" required name="cid">
+								<option value="" selected="selected" hidden="hidden">Enter Category</option>
+								<%
+								
+									PostDao postcat = new PostDao(ConnectionProvider.getConnection());
+									ArrayList<Category> catlist = postcat.getAllCategories();
+									for(Category c:catlist){
+									
+								%>
+								<option value="<%=c.getCid() %>"><%=c.getName() %></option>
+								<%
+									}
+								%>
+							</select>
+						</div>
+						<div class="form-group">
+							<input name="pTitle" required type="text" placeholder="Enter Blog Title" class="form-control"/>
+						</div>
+						<div class="form-group">
+							<textarea name="pContent" required class="form-control" style="height:150px;" placeholder="Enter blog content"></textarea>
+						</div>
+						<div class="form-group">
+							<textarea name="pAltcontent" class="form-control" style="height:100px;" placeholder="Enter blog alternate info"></textarea>
+						</div>
+						<div class="form-group">
+							<label>Upload Files</label><br>
+							<input name="pPic"  type="file" >
+						</div>
+					
+						<div class="container text-center">
+							<button type="submit" class="btn btn-outline-primary"> Post </button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- post modal ends here -->
+	
 	<!--javascript -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -211,7 +278,10 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script type="text/javascript" src="js/myjs.js"></script>
+	
+	<!-- edit profile using ajax -->
 	<script>
 
 		$(document).ready(function (){
@@ -234,6 +304,43 @@
 			})
 		})
 
+	</script>
+	
+	<!-- edit profile using ajax -->
+	<script>
+
+		$(document).ready(function (){
+
+			$('#addPostForm').on('submit', function(){
+
+				event.preventDefault();
+				let form = new FormData(this);
+				//console.log("form submitted");
+				$.ajax({
+					url:"AddPostServlet",
+					type:"POST",
+					data: form,
+					success: function(data, textStatus, jqXHR){
+						//console.log(data);
+						if(data.trim() == "done"){
+							swal("Success", "Post created", "success");
+						}
+						else{
+							swal("Error, try again", data, "error");
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						swal("Something went wrong", "Error while contacting server", "error");
+					},
+					processData: false,
+					contentType: false
+
+				});
+				
+			})
+			
+		})
+	
 	</script>
 </body>
 </html>
