@@ -1,12 +1,13 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.blog.helper.ConnectionProvider"%>
-<%@page import="com.blog.dao.PostDao"%>
-<%@page import="com.blog.entities.Message"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@page import="com.blog.entities.User" %>    
-<%@page import="com.blog.entities.Category" %>    
-<%@page errorPage="errorpage.jsp" %>    
+<%@page import="java.util.*"%>
+<%@page import="com.blog.helper.ConnectionProvider"%>
+<%@page import="com.blog.dao.PostDao"%>
+<%@page import="com.blog.entities.Post"%>
+<%@page import="com.blog.entities.User" %>   
+<%@page import="com.blog.entities.Category" %>
+<%@page import="java.util.ArrayList"%>    
+<%@page errorPage="errorpage.jsp" %>  
 <%
 
 	User user = (User)session.getAttribute("currentUser");
@@ -15,13 +16,18 @@
 	}
 
 %>
+<%
+	int postId = Integer.parseInt(request.getParameter("postId"));
+	PostDao pd = new PostDao(ConnectionProvider.getConnection());
+	Post post = pd.getPostsBypid(postId);
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Profile</title>
+<title>Blog: <%= post.getpTitle() %></title>
 
-<!--css-->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -35,9 +41,10 @@
 	}
 </style>
 
+
 </head>
 <body>
-
+	
 	<!-- Navbar -->
 
 	<nav class="navbar navbar-expand-lg navbar-dark primary-background">
@@ -53,7 +60,7 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#"> <span
+				<li class="nav-item active"><a class="nav-link" href="profile.jsp"> <span
 						class="fa fa-hashtag"></span> Learning Journey <span
 						class="sr-only">(current)</span>
 				</a></li>
@@ -87,58 +94,39 @@
 	</nav>
 
 	<!-- Navbar ends here -->
-
-	<%
-	Message m = (Message) session.getAttribute("editmsg");
-	if (m != null) {
-	%>
-	<div>
-		<div class="alert <%=m.getCssClass()%>" role="alert">
-			<%=m.getContent()%>
-		</div>
-	</div>
-	<%
-	session.removeAttribute("msg");
-	}
-	%>
-
-	<!-- main body display posts -->
+	
+	<!-- Main page content -->
 	
 	<main>
 	
 		<div class="container">
 		
-			<div class="row mt-4">
-			<!-- 2 cols -->
-				<!--  1st col -->
-				<div class="col-md-3">
-					<!--  categories -->
-					<div class="list-group">
-						<a href="#" onclick="getPosts(0, this)" class="c-link list-group-item list-group-item-action primary-background text-white">All Posts </a> 
-						
-						<%
-							PostDao pdao = new PostDao(ConnectionProvider.getConnection());
-							ArrayList<Category> showcatlist = pdao.getAllCategories();
-							for(Category showcat: showcatlist){
-						%>
-						<a href="#" onclick="getPosts(<%= showcat.getCid() %>, this)" class="c-link list-group-item list-group-item-action"><%= showcat.getName() %></a> 
-						<%
-							}
-						%>
-					</div>
-
-				</div>
+			<div class="row my-4">
+			
+				<div class="col-md-8 offset-md-2">
 				
-				<!--  2nd col -->
-				<div class="col-md-9">
-					<!--  posts -->
-					<div class="container-fluid text-center" id="postloader">
-						<i class="fa fa-refresh fa-3x fa-spin"></i>
-						<h3 class="mt-3">Loading...</h3>
-					</div>
+					<div class="card">
 					
-					<div class="container-fluid" id="postcontainer">
+						<div class="card-header primary-background text-white">
+							<h4><%= post.getpTitle() %></h4>			
+						</div>
+						<img class="card-img-top" src="postpics/<%= post.getpPic()%>" alt="Card image app">
+						<div class="card-body">
+							<h6><%= post.getpContent() %></h6>
+							<br>			
+							<br>			
+							<pre><%= post.getpAltcontent() %></pre>
+										
+						</div>
+						<div class="card-footer primary-background ">
+							<a href="#!" class="btn btn-outline-dark text-white btn-sm"><i class="fa fa-thumbs-o-up"><span>10</span></i></a>
+							<a href="#!" class="btn btn-outline-dark text-white btn-sm"><i class="fa fa-comments"><span>10</span></i></a>
 					</div>
+						
+						
+					
+					</div>
+				
 				</div>
 			
 			</div>
@@ -147,10 +135,9 @@
 	
 	</main>
 	
-	<!-- display posts ends here -->
-
-
-	<!-- profile modal -->
+	<!-- Main page content ends here-->
+	
+		<!-- profile modal -->
 
 	<!-- Modal -->
 	
@@ -394,36 +381,5 @@
 	</script>
 	<!-- add post using ajax ends here -->
 	
-	<!-- load posts -->
-	<script>
-		
-		function getPosts(catId, clickedlink){
-
-			$("#postloader").show();
-			$("#postcontainer").hide();
-			$(".c-link").removeClass('primary-background text-white');
-			
-			$.ajax({
-
-				url: "loadposts.jsp",
-				data: {cid: catId},
-				success: function(data, textStatus, jqXHR){
-					$("#postloader").hide();
-					$("#postcontainer").show();
-					$("#postcontainer").html(data);
-					$(clickedlink).addClass('primary-background text-white');
-				}
-			
-			})
-		}
-
-		$(document).ready(function(){
-
-			let allPostRef = $('.c-link')[0]
-			getPosts(0, allPostRef);			
-			
-		})
-
-	</script>
 </body>
 </html>

@@ -17,6 +17,7 @@
   <filter-mapping>
   	<filter-name>Logincheck</filter-name>
   	<url-pattern>/profile.jsp</url-pattern>
+  	<url-pattern>/showblogposts.jsp</url-pattern>
   </filter-mapping>
   
 </web-app>
