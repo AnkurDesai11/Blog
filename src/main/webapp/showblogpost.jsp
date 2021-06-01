@@ -1,8 +1,11 @@
+<%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.*"%>
+<%@page import="java.text.*"%>
 <%@page import="com.blog.helper.ConnectionProvider"%>
 <%@page import="com.blog.dao.PostDao"%>
+<%@page import="com.blog.dao.UserDao"%>
 <%@page import="com.blog.entities.Post"%>
 <%@page import="com.blog.entities.User" %>   
 <%@page import="com.blog.entities.Category" %>
@@ -39,9 +42,32 @@
 	.banner-background{
 		clip-path: polygon(50% 0%, 100% 0, 100% 92%, 65% 100%, 29% 92%, 0 100%, 0 0);
 	}
+	.post-title{
+		font-weight: 100;
+		font-size: 30px;
+	}
+	.post-content{
+		font-weight: 100;
+		font-size: 25px;
+	}
+	.post-date{
+		font-weight: bold;
+		font-style: italic;
+	}
+	.post-user-info{
+		font-size: 20px;
+	}
+	.row-user{
+		border: 1px solid #e2e2e2;
+		padding-top: 10px;
+	}
+	body{
+		background: url(img/bg-img-bp2.jpg);
+		background-size: cover;
+		background-attachment: fixed;
+	}
+	
 </style>
-
-
 </head>
 <body>
 	
@@ -101,27 +127,48 @@
 	
 		<div class="container">
 		
-			<div class="row my-4">
+			<div class="row my-2">
 			
 				<div class="col-md-8 offset-md-2">
 				
 					<div class="card">
 					
 						<div class="card-header primary-background text-white">
-							<h4><%= post.getpTitle() %></h4>			
+							<h4 class="post-title"><%= post.getpTitle() %></h4>			
 						</div>
+						
 						<img class="card-img-top" src="postpics/<%= post.getpPic()%>" alt="Card image app">
-						<div class="card-body">
-							<h6><%= post.getpContent() %></h6>
-							<br>			
-							<br>			
-							<pre><%= post.getpAltcontent() %></pre>
-										
+						
+						
+						<div class="row my-1 mx-2 row-user">
+						
+							<div class="col-md-8">
+								
+								<%
+									UserDao ud = new UserDao(ConnectionProvider.getConnection());
+								%>
+								<p class="post-user-info">Posted by: <a href="#!"><%= ud.getUserByUserId(post.getUserId()).getName() %></a></p>
+							</div>
+							<div class="col-md-4">
+								<p class="post-date"><%= DateFormat.getDateTimeInstance().format(post.getpDate()) %></p>
+							</div>
+						
 						</div>
+						
+						
+						<div class="card-body">
+							<h6 class="post-content"><%= post.getpContent() %></h6>
+							<br>			
+							<br>
+							<div class="post-altcontent">	
+								<pre><%= post.getpAltcontent() %></pre>
+							</div>				
+						</div>
+						
 						<div class="card-footer primary-background ">
 							<a href="#!" class="btn btn-outline-dark text-white btn-sm"><i class="fa fa-thumbs-o-up"><span>10</span></i></a>
 							<a href="#!" class="btn btn-outline-dark text-white btn-sm"><i class="fa fa-comments"><span>10</span></i></a>
-					</div>
+						</div>
 						
 						
 					
