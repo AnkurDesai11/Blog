@@ -1,3 +1,4 @@
+<%@page import="com.blog.dao.LikeDao"%>
 <%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -166,7 +167,16 @@
 						</div>
 						
 						<div class="card-footer primary-background ">
-							<a href="#!" class="btn btn-outline-dark text-white btn-sm"><i class="fa fa-thumbs-o-up"><span>10</span></i></a>
+						
+							<%
+								LikeDao ldao = new LikeDao(ConnectionProvider.getConnection());
+								String outline = "dark";
+								if(ldao.isLikedByUser(post.getPid(), user.getId())){
+									outline = "light";
+								}
+							%>
+							
+							<a href="#!" onclick="doLike(<%= post.getPid()%>, <%= user.getId() %>)" class="btn btn-outline-<%= outline %> text-white btn-sm" id="likebtn<%=post.getPid() %>"><i class="fa fa-thumbs-o-up"><span class="likecounter<%= post.getPid()%>"><%= ldao.countLikesOnPost(post.getPid()) %></span></i></a>
 							<a href="#!" class="btn btn-outline-dark text-white btn-sm"><i class="fa fa-comments"><span>10</span></i></a>
 						</div>
 						
